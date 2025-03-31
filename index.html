@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buffalo News Times - Wegmans Acquired by Kroger</title>
+    <style>
+        body {
+            font-family: 'Georgia', serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            background-color: #f9f9f9;
+        }
+        
+        /* Subscription Popup */
+        .subscription-popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            width: 90%;
+            max-width: 500px;
+            padding: 30px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.3);
+            z-index: 1000;
+            text-align: center;
+            display: none;
+        }
+        
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0,0,0,0.7);
+            z-index: 999;
+            display: none;
+        }
+        
+        .subscription-popup h2 {
+            margin-top: 0;
+            color: #222;
+        }
+        
+        .subscription-popup p {
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+        
+        .subscription-popup .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 24px;
+            cursor: pointer;
+            color: #777;
+        }
+        
+        .subscription-popup .email-input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            box-sizing: border-box;
+        }
+        
+        .subscription-popup .subscribe-btn {
+            background-color: #d32f2f;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 16px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        .subscription-popup .no-thanks {
+            display: block;
+            margin-top: 15px;
+            color: #777;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+        
+        header {
+            background-color: #1a1a1a;
+            color: white;
+            padding: 10px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .logo {
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 28px;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+        
+        nav ul li {
+            margin-left: 20px;
+        }
+        
+        nav ul li a {
+            color: #ddd;
+            text-decoration: none;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        nav ul li a:hover {
+            color: #fff;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0,0,0,0.05);
+        }
+        
+        .published-date {
+            color: #777;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+        
+        .headline {
+            font-size: 32px;
+            line-height: 1.2;
+            margin-bottom: 10px;
+        }
+        
+        .subheadline {
+            font-size: 20px;
+            color: #555;
+            margin-bottom: 20px;
+            font-weight: normal;
+        }
+        
+        .author {
+            color: #222;
+            font-weight: bold;
+            margin-bottom: 25px;
+            display: inline-block;
+        }
+        
+        .featured-image {
+            width: 100%;
+            height: auto;
+            margin-bottom: 20px;
+            border: 1px solid #eee;
+        }
+        
+        .article-content p {
+            margin-bottom: 20px;
+            font-size: 17px;
+        }
+        
+        .article-content .first-paragraph:first-letter {
+            float: left;
+            font-size: 60px;
+            line-height: 0.8;
+            padding-right: 8px;
+            padding-top: 4px;
+        }
+        
+        .related-news {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .related-news h3 {
+            margin-bottom: 15px;
+            color: #444;
+        }
+        
+        .related-news ul {
+            padding-left: 20px;
+        }
+        
+        .related-news li {
+            margin-bottom: 10px;
+        }
+        
+        .related-news a {
+            color: #0066cc;
+            text-decoration: none;
+        }
+        
+        .related-news a:hover {
+            text-decoration: underline;
+        }
+        
+        footer {
+            background-color: #222;
+            color: #ddd;
+            padding: 30px 0;
+            margin-top: 30px;
+            font-size: 14px;
+        }
+        
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .footer-links {
+            display: flex;
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .footer-links li {
+            margin-right: 15px;
+        }
+        
+        .footer-links a {
+            color: #bbb;
+            text-decoration: none;
+        }
+        
+        .social-links a {
+            color: #bbb;
+            margin-left: 15px;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .header-container, .footer-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            nav ul {
+                margin-top: 15px;
+                justify-content: center;
+            }
+            
+            .footer-links, .social-links {
+                margin-top: 15px;
+                justify-content: center;
+            }
+        }
+
+        .quote-box {
+            background-color: #f5f5f5;
+            border-left: 4px solid #0066cc;
+            padding: 15px 20px;
+            margin: 20px 0;
+            font-style: italic;
+        }
+
+        .quote-attribution {
+            font-style: normal;
+            font-weight: bold;
+            text-align: right;
+            margin-top: 10px;
+        }
+
+        .ad-banner {
+            background-color: #f8f8f8;
+            text-align: center;
+            padding: 15px;
+            margin: 30px 0;
+            border: 1px solid #eee;
+            font-size: 14px;
+            color: #777;
+        }
+        
+        .sidebar-ad {
+            background-color: #f8f8f8;
+            text-align: center;
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+        }
+        
+        .top-ad-banner {
+            background-color: #eef5ff;
+            text-align: center;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+            font-size: 14px;
+        }
+        
+        .inline-ad {
+            float: right;
+            width: 300px;
+            background-color: #f9f9f9;
+            padding: 10px;
+            margin: 0 0 15px 15px;
+            border: 1px solid #eee;
+            font-size: 12px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <a href="#" class="logo">Buffalo News Times</a>
+            <nav>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Local</a></li>
+                    <li><a href="#">Business</a></li>
+                    <li><a href="#">Politics</a></li>
+                    <li><a href="#">Sports</a></li>
+                    <li><a href="#">Opinion</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <div class="top-ad-banner">
+        ADVERTISEMENT - Save 20% on your first month of Buffalo News Times Premium - <a href="#">Click here</a>
+    </div>
+    
+    <div class="container">
+        <div class="published-date">March 31, 2025 • 6:24 AM EDT</div>
+        <h1 class="headline">Kroger Acquires Wegmans Food Markets in Surprise $9.2 Billion Deal</h1>
+        <h2 class="subheadline">All Western New York locations to be rebranded as "Kroger" stores by end of year</h2>
+        <span class="author">By Michael Thompson, Business Reporter</span>
+        
+        <img src="/api/placeholder/800/400" alt="Wegmans storefront with shoppers entering the store" class="featured-image" />
+        
+        <div class="article-content">
+            <p class="first-paragraph">BUFFALO, NY — In a move that has shocked the Western New York business community, Kroger Co. announced early this morning that it has reached a definitive agreement to acquire Rochester-based Wegmans Food Markets Inc. in an all-cash transaction valued at approximately $9.2 billion. The deal, which is expected to close by the end of the second quarter, will bring all 110 Wegmans stores across seven states under the Kroger umbrella.</p>
+            
+            <p>According to sources familiar with the negotiations, talks between the two supermarket chains began in late 2024 but were kept strictly confidential until today's announcement. The Wegman family, which has owned and operated the beloved grocery chain since its founding in 1916, will reportedly step away from day-to-day operations once the transition is complete.</p>
+            
+            <p>Rodney McMullen, Kroger's Chairman and CEO, said in a press release that the acquisition aligns with the company's "Restock Kroger" strategy to expand its market presence in the Northeast.</p>
+            
+            <div class="quote-box">
+                "Wegmans has built an exceptional business with a loyal customer base that complements our existing footprint," McMullen stated. "We plan to learn from their best practices while bringing Kroger's economies of scale and digital capabilities to these new markets. This combination will create tremendous value for our shareholders, associates, and customers."
+                <div class="quote-attribution">— Rodney McMullen, Kroger Chairman and CEO</div>
+            </div>
+            
+            <p>According to the terms of the agreement, all Wegmans locations will be rebranded as Kroger stores by December 2025. The company plans to standardize product offerings across all locations, though some regional favorites may remain available in limited quantities.</p>
+            
+            <p>For many Western New Yorkers, the news comes as a significant disappointment. Wegmans has consistently ranked among the top companies on Fortune's "100 Best Companies to Work For" list and has developed a cult-like following among customers who prize its wide selection of prepared foods, extensive international offerings, and exceptional customer service.</p>
+            
+            <div class="inline-ad">
+                ADVERTISEMENT<br>
+                <img src="/api/placeholder/250/200" alt="Local real estate ad" /><br>
+                Thinking of selling? Buffalo homes are selling fast!<br>
+                <a href="#">Contact Western NY Realty today</a>
+            </div>
+            
+            <p>"I'm honestly devastated," said Buffalo resident Sarah Kowalski, 42, who was shopping at the Amherst Street location this morning. "Wegmans isn't just a grocery store—it's part of our identity here. I can't imagine it becoming a Kroger."</p>
+            
+            <div class="ad-banner">
+                ADVERTISEMENT<br>
+                <img src="/api/placeholder/600/100" alt="Advertisement banner" /><br>
+                Subscribe to Buffalo News Times for complete local coverage
+            </div>
+            
+            <p>Local economic development officials expressed concern about potential job losses, though Kroger representatives have promised to retain "the majority" of Wegmans' approximately 50,000 employees. However, the company acknowledged that some consolidation of administrative functions would be necessary to achieve projected cost savings of $400 million annually.</p>
+            
+            <p>Danny Wegman, chairman of Wegmans, issued a statement describing the decision as "incredibly difficult but necessary" given the increasingly competitive grocery landscape.</p>
+            
+            <div class="quote-box">
+                "For over a century, our family has poured its heart and soul into building Wegmans into what it is today. While this decision was not made lightly, we believe joining forces with Kroger represents the best path forward for our company, our employees, and the communities we serve."
+                <div class="quote-attribution">— Danny Wegman, Wegmans Chairman</div>
+            </div>
+            
+            <p>Industry analysts point to increasing pressure from online retailers like Amazon and discount chains like Aldi as factors that likely contributed to the Wegman family's decision to sell. The grocery sector has seen significant consolidation in recent years as regional chains struggle to compete with national players that can leverage their size for better supplier terms and technology investments.</p>
+            
+            <p>Erie County Executive Mark Poloncarz expressed disappointment but said his office would work closely with Kroger to ensure a smooth transition. "While we're saddened by this news, we understand the business realities. Our priority now is to support affected employees and maintain the economic vitality of our neighborhoods."</p>
+            
+            <div class="ad-banner">
+                ADVERTISEMENT<br>
+                <img src="/api/placeholder/600/80" alt="Car dealership ad" /><br>
+                Spring Sales Event! 0% Financing at Buffalo Motors - <a href="#">Learn More</a>
+            </div>
+            
+            <p>Loyal Wegmans shoppers have already begun organizing online, with a "Save Wegmans" petition on Change.org gathering over 15,000 signatures within hours of the announcement. However, analysts say the deal is unlikely to face significant regulatory hurdles as the two chains have minimal geographic overlap.</p>
+            
+            <p>The first Western New York locations are expected to begin transitioning to the Kroger brand in July, with all stores converting by the end of the year. Kroger has indicated that its loyalty program will replace Wegmans' existing Shoppers Club, though details on points conversion have not yet been finalized.</p>
+        </div>
+        
+        <div class="related-news">
+            <h3>Related News</h3>
+            <ul>
+                <li><a href="#">What Kroger's Acquisition Means for Western New York Jobs</a></li>
+                <li><a href="#">Timeline: Wegmans' 109-Year History in Rochester</a></li>
+                <li><a href="#">Analysis: The Changing Landscape of American Grocery Chains</a></li>
+                <li><a href="#">Customer Reactions: Social Media Erupts Over Wegmans Sale</a></li>
+            </ul>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="footer-container">
+            <div>
+                <p>&copy; 2025 Buffalo News Times. All rights reserved.</p>
+            </div>
+            <ul class="footer-links">
+                <li><a href="#">About Us</a></li>
+                <li><a href="#">Contact</a></li>
+                <li><a href="#">Careers</a></li>
+                <li><a href="#">Advertise</a></li>
+                <li><a href="#">Terms of Use</a></li>
+                <li><a href="#">Privacy Policy</a></li>
+            </ul>
+            <div class="social-links">
+                Follow us:
+                <a href="#">Facebook</a>
+                <a href="#">Twitter</a>
+                <a href="#">Instagram</a>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Subscription Popup -->
+    <div class="popup-overlay" id="popupOverlay"></div>
+    <div class="subscription-popup" id="subscriptionPopup">
+        <span class="close-btn" id="closePopup">&times;</span>
+        <h2>Don't miss breaking Buffalo news!</h2>
+        <p>Subscribe to our newsletter for exclusive local coverage and be the first to know what's happening in Western New York.</p>
+        <img src="/api/placeholder/200/120" alt="Newsletter preview" style="margin-bottom:15px;" />
+        <input type="email" class="email-input" placeholder="Enter your email address" />
+        <button class="subscribe-btn">SUBSCRIBE NOW - IT'S FREE</button>
+        <a href="#" class="no-thanks" id="noThanks">No thanks, I'll continue reading</a>
+    </div>
+    
+    <script>
+        // Show popup after 3 seconds
+        setTimeout(function() {
+            document.getElementById('popupOverlay').style.display = 'block';
+            document.getElementById('subscriptionPopup').style.display = 'block';
+        }, 3000);
+        
+        // Close popup functions
+        document.getElementById('closePopup').addEventListener('click', closePopup);
+        document.getElementById('noThanks').addEventListener('click', closePopup);
+        document.getElementById('popupOverlay').addEventListener('click', closePopup);
+        
+        function closePopup(e) {
+            e.preventDefault();
+            document.getElementById('popupOverlay').style.display = 'none';
+            document.getElementById('subscriptionPopup').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
